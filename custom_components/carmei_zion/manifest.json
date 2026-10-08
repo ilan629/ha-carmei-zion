@@ -1,0 +1,12 @@
+{
+  "domain": "carmei_zion",
+  "name": "Carmei Zion Times",
+  "codeowners": ["@ilan629"],
+  "config_flow": true,
+  "documentation": "https://github.com/ilan629/ha-carmei-zion",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/ilan629/ha-carmei-zion/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}

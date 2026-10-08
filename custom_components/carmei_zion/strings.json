@@ -1,0 +1,18 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Carmei Zion Times",
+        "description": "Adds the weekly Carmei Zion shul times as sensors. The address below is the public feed, so just press Submit.",
+        "data": { "url": "Feed address" },
+        "data_description": { "url": "Leave as is unless you were given a different address." }
+      }
+    },
+    "error": {
+      "cannot_connect": "Couldn't download the feed. Check this Home Assistant has internet access and try again.",
+      "bad_feed": "That address doesn't have a Carmei Zion times feed.",
+      "https_only": "The address must start with https://"
+    },
+    "abort": { "already_configured": "Carmei Zion Times is already set up." }
+  }
+}
