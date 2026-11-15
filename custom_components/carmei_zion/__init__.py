@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import timedelta
 
 from homeassistant.const import Platform
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.event import async_track_time_interval
 
 from .coordinator import CarmeiZionConfigEntry, CarmeiZionCoordinator
@@ -22,9 +22,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: CarmeiZionConfigEntry) -
 
     # "Next Sunday Mincha" and "up to date" depend on the clock, not just on new data,
     # so re-evaluate the entities every minute (no download involved).
-    entry.async_on_unload(
-        async_track_time_interval(hass, lambda _now: coordinator.async_update_listeners(), timedelta(minutes=1))
-    )
+    # Must be an event-loop @callback: a plain lambda is run in a worker thread, and
+    # writing entity state from there is rejected by Home Assistant.
+    @callback
+    def _async_tick(_now) -> None:
+        coordinator.async_update_listeners()
+
+    entry.async_on_unload(async_track_time_interval(hass, _async_tick, timedelta(minutes=1)))
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     return True
